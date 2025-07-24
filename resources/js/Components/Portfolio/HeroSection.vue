@@ -11,19 +11,19 @@
           <div class="profile-wrapper">
             <div class="profile-inner">
               <img 
-                src="/public/rezuan.jpg" 
-                alt="Rezuan Ahmmed" 
-                class="profile-image"
-                @error="handleImageError"
-              />
+  :src="getProfileImage()" 
+  :alt="getProfileName()" 
+  class="w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-500"
+  @error="handleImageError"
+/>
             </div>
           </div>
         </div>
         
         <h1 class="hero-title">
-          <span class="hero-name">
-            Rezuan Ahmmed
-          </span>
+          <span class="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent animate-text-shimmer">
+  {{ getProfileName() }}
+</span>
         </h1>
         
         <p class="hero-subtitle">
@@ -76,6 +76,12 @@ import { markRaw } from 'vue'
 
 export default {
   name: 'HeroSection',
+  props: {
+  profile: {
+    type: Object,
+    default: null
+  }
+},
   data() {
     return {
       // Mark all Three.js objects as non-reactive to prevent Vue proxy issues
@@ -867,9 +873,21 @@ export default {
       this.dataStreams = []
       this.glowingSpheres = []
       this.neuralNetwork = null
-    }
+    },
+    getProfileName() {
+  return this.profile?.name || 'Rezuan Ahmmed'
+},
+getProfileImage() {
+  if (this.profile?.image) {
+    return `/storage/${this.profile.image}`
+  }
+  return '/public/rezuan.jpg' // fallback to original image
+},
+
   }
 }
+
+
 </script>
 
 <style scoped>

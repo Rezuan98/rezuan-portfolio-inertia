@@ -1,7 +1,7 @@
-<!-- 1. Main Home.vue Component -->
+<!-- Updated Home.vue Component -->
 <template>
   <div class="bg-black text-white min-h-screen pb-16">
-    <HeroSection />
+    <HeroSection :profile="profile" />
     <AboutSection />
     <SkillsSection />
     <ExperienceSection />
@@ -22,6 +22,12 @@ import FooterSection from '../Components/Portfolio/FooterSection.vue'
 
 export default {
   name: 'Home',
+  props: {
+    profile: {
+      type: Object,
+      default: null
+    }
+  },
   components: {
     HeroSection,
     AboutSection,
