@@ -12,7 +12,7 @@ class ProfileInfoController extends Controller
     public function index()
     {
         $profile = ProfileInfo::first();
-        
+
         return Inertia::render('Backend/Profile/Create', [
             'profile' => $profile
         ]);
@@ -20,17 +20,27 @@ class ProfileInfoController extends Controller
 
     public function storeOrUpdate(Request $request)
     {
-        // Simple validation
-        $request->validate([
+        // Simplified validation
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
+            'title' => 'nullable|string|max:255',
+            'bio' => 'nullable|string',
+            'email' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:50',
+            'location' => 'nullable|string|max:255',
+            'github' => 'nullable|string|max:255',
+            'linkedin' => 'nullable|string|max:255',
+            'twitter' => 'nullable|string|max:255',
+            'website' => 'nullable|string|max:255',
+            'skills' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048'
         ]);
 
         // Get existing profile or create new one
         $profile = ProfileInfo::first() ?? new ProfileInfo();
 
-        // Set name
-        $profile->name = $request->name;
+        // Set all fields
+        $profile->fill($validated);
 
         // Handle image upload
         if ($request->hasFile('image')) {

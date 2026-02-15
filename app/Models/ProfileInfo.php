@@ -17,6 +17,16 @@ class ProfileInfo extends Model
      */
     protected $fillable = [
         'name',
+        'title',
+        'bio',
+        'email',
+        'phone',
+        'location',
+        'github',
+        'linkedin',
+        'twitter',
+        'website',
+        'skills',
         'image',
     ];
 

@@ -1,4 +1,4 @@
-<!-- Enhanced SkillsSection.vue with RESTful API, Three.js, and beautiful progress bars -->
+<!-- Enhanced SkillsSection.vue with dynamic data from database -->
 <template>
   <section id="skills" class="py-20 px-4 bg-black">
     <div class="max-w-6xl mx-auto">
@@ -7,70 +7,38 @@
       </h2>
       
       <div class="grid md:grid-cols-3 gap-8">
-        <!-- Frontend -->
+        <!-- Frontend Development -->
         <div class="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-gray-800 hover:border-teal-500/50 transition-all duration-300 group">
           <h3 class="text-xl font-semibold mb-6 text-teal-400">Frontend Development</h3>
           <div class="space-y-4">
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">HTML/CSS</span>
+            <div 
+              v-for="skill in getSkillsByCategory('Frontend')" 
+              :key="skill.id"
+              class="skill-item"
+            >
+              <span class="text-gray-300 font-medium">{{ skill.name }}</span>
             </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">JavaScript</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Vue.js</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">React</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Tailwind CSS</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Three.js</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Bootstrap</span>
+            <!-- Show message if no skills -->
+            <div v-if="getSkillsByCategory('Frontend').length === 0" class="text-gray-500 text-sm italic">
+              No skills added yet
             </div>
           </div>
         </div>
 
-        <!-- Backend -->
+        <!-- Backend Development -->
         <div class="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-gray-800 hover:border-teal-500/50 transition-all duration-300 group">
           <h3 class="text-xl font-semibold mb-6 text-teal-400">Backend Development</h3>
           <div class="space-y-4">
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">PHP</span>
+            <div 
+              v-for="skill in getSkillsByCategory('Backend')" 
+              :key="skill.id"
+              class="skill-item"
+            >
+              <span class="text-gray-300 font-medium">{{ skill.name }}</span>
             </div>
-            
-            <div class="skill-item mb-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-all duration-300">
-              <span class="text-gray-300 font-medium">Laravel</span>
-            </div>
-            
-            <div class="skill-item mb-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-all duration-300">
-              <span class="text-gray-300 font-medium">RESTful API</span>
-            </div>
-            
-            <div class="skill-item mb-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-all duration-300">
-              <span class="text-gray-300 font-medium">MySQL</span>
-            </div>
-            
-            <div class="skill-item mb-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-all duration-300">
-              <span class="text-gray-300 font-medium">PostgreSQL</span>
-            </div>
-            
-            <div class="skill-item mb-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-all duration-300">
-              <span class="text-gray-300 font-medium">Ajax</span>
-            </div>
-            
-            <div class="skill-item mb-3 p-3 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-teal-500/30 transition-all duration-300">
-              <span class="text-gray-300 font-medium">jQuery</span>
+            <!-- Show message if no skills -->
+            <div v-if="getSkillsByCategory('Backend').length === 0" class="text-gray-500 text-sm italic">
+              No skills added yet
             </div>
           </div>
         </div>
@@ -79,28 +47,24 @@
         <div class="bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-gray-800 hover:border-teal-500/50 transition-all duration-300 group">
           <h3 class="text-xl font-semibold mb-6 text-teal-400">DevOps & Tools</h3>
           <div class="space-y-4">
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">cPanel</span>
+            <div 
+              v-for="skill in getSkillsByCategory('DevOps')" 
+              :key="skill.id"
+              class="skill-item"
+            >
+              <span class="text-gray-300 font-medium">{{ skill.name }}</span>
             </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Cloud VPS</span>
+            <!-- Also include "Tools" category -->
+            <div 
+              v-for="skill in getSkillsByCategory('Tools')" 
+              :key="skill.id"
+              class="skill-item"
+            >
+              <span class="text-gray-300 font-medium">{{ skill.name }}</span>
             </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Git</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Linux</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Docker</span>
-            </div>
-            
-            <div class="skill-item">
-              <span class="text-gray-300 font-medium">Nginx</span>
+            <!-- Show message if no skills -->
+            <div v-if="getSkillsByCategory('DevOps').length === 0 && getSkillsByCategory('Tools').length === 0" class="text-gray-500 text-sm italic">
+              No skills added yet
             </div>
           </div>
         </div>
@@ -112,11 +76,16 @@
 <script>
 export default {
   name: 'SkillsSection',
-  mounted() {
-    // Component mounted - no animations needed
+  props: {
+    skills: {
+      type: Object,
+      default: () => ({})
+    }
   },
   methods: {
-    // Removed animation methods
+    getSkillsByCategory(category) {
+      return this.skills[category] || []
+    }
   }
 }
 </script>
